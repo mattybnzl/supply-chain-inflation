@@ -1,0 +1,2409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Your Grocery Bill Keeps Climbing</title>
+<style>
+  :root {
+    --charcoal: #2d2926;
+    --charcoal-light: #3d3936;
+    --terracotta: #c1666b;
+    --terracotta-light: #d4888c;
+    --terracotta-dark: #a8545a;
+    --sand: #e8dcc8;
+    --sand-light: #f2ebe0;
+    --sand-dark: #d4c5a9;
+    --cream: #faf7f2;
+    --sage: #7a9e7e;
+    --sage-dark: #5d8261;
+    --sage-light: #a3c4a7;
+    --amber: #d4a054;
+    --amber-dark: #b8863c;
+    --amber-light: #e8c88a;
+    --red-alert: #c1444b;
+    --text-primary: #2d2926;
+    --text-secondary: #5a524d;
+    --text-light: #8a827d;
+    --blue-info: #5b8fb9;
+    --blue-dark: #3d6d94;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* ── Hero ── */
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--sand-dark);
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  header .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+  }
+
+  header .price-anchor {
+    display: inline-flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: var(--sand-light);
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  header .price-anchor strong { color: var(--terracotta-dark); }
+
+  /* ── Section headings ── */
+  .section-title {
+    font-size: 1.25rem;
+    color: var(--charcoal);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--sand-dark);
+    font-weight: 700;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Narrative / Story ── */
+  .story-section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .story-section h2 {
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+
+  .story-intro {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .story-chain {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .story-stage {
+    flex: 1;
+    min-width: 130px;
+    text-align: center;
+    position: relative;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .story-stage:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid var(--sand-dark);
+    z-index: 1;
+  }
+
+  .story-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+
+  .story-name {
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--charcoal);
+  }
+
+  .story-role {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    margin-top: 0.1rem;
+  }
+
+  .story-cost-change {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.35rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .story-cost-change.up {
+    background: #fde8e8;
+    color: var(--terracotta-dark);
+  }
+
+  .story-cost-change.neutral {
+    background: var(--sand-light);
+    color: var(--text-light);
+  }
+
+  /* ── Controls Panel ── */
+  .controls-panel {
+    background: var(--charcoal);
+    color: var(--sand-light);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .control-group h3 {
+    font-size: 0.85rem;
+    color: var(--sand-dark);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .slider-row label {
+    font-size: 0.85rem;
+    color: var(--sand-dark);
+    white-space: nowrap;
+    min-width: 100px;
+  }
+
+  .slider-row input[type="range"] {
+    flex: 1;
+    min-width: 140px;
+    accent-color: var(--terracotta);
+    height: 6px;
+  }
+
+  .slider-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--terracotta-light);
+    min-width: 75px;
+    text-align: right;
+  }
+
+  .slider-value.sage { color: var(--sage-light); }
+
+  /* ── Crisis Presets ── */
+  .crisis-presets {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .crisis-btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--charcoal-light);
+    background: var(--charcoal-light);
+    color: var(--sand-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .crisis-btn:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta-light);
+    background: rgba(193, 102, 107, 0.15);
+  }
+
+  .crisis-btn.active {
+    border-color: var(--terracotta);
+    background: var(--terracotta);
+    color: white;
+  }
+
+  .crisis-btn .label { font-weight: 600; }
+  .crisis-btn .detail {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    display: block;
+    margin-top: 0.1rem;
+  }
+
+  /* ── Product tabs ── */
+  .product-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .product-tab {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--sand-dark);
+    background: var(--sand-light);
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+
+  .product-tab.active {
+    background: white;
+    border-color: var(--terracotta);
+    border-bottom-color: white;
+    color: var(--terracotta);
+  }
+
+  .product-tab:hover:not(.active) { background: var(--sand); }
+
+  .product-tab .stages-count {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-light);
+    margin-left: 0.3rem;
+  }
+
+  /* ── Summary Box ── */
+  .summary-box {
+    background: white;
+    border: 2px solid var(--terracotta);
+    border-radius: 12px;
+    padding: 1.25rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .summary-box h3 {
+    font-size: 1rem;
+    color: var(--terracotta-dark);
+    margin-bottom: 0.6rem;
+  }
+
+  .summary-numbers {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+
+  .summary-stat { text-align: center; }
+
+  .summary-stat .value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .summary-stat .label {
+    font-size: 0.78rem;
+    color: var(--text-light);
+  }
+
+  .summary-stat .trad { color: var(--terracotta); }
+  .summary-stat .fixed { color: var(--sage-dark); }
+  .summary-stat .gap { color: var(--amber-dark); }
+
+  .summary-insight {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .summary-insight strong { color: var(--charcoal); }
+
+  /* ── View Tabs ── */
+  .view-tabs {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--sand-dark);
+    padding-bottom: 0;
+  }
+
+  .view-tab {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+  }
+
+  .view-tab.active {
+    color: var(--terracotta);
+    border-bottom-color: var(--terracotta);
+  }
+
+  .view-tab:hover:not(.active) {
+    color: var(--text-secondary);
+  }
+
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
+
+  /* ── Comparison Layout ── */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 850px) {
+    .comparison { grid-template-columns: 1fr; }
+    .story-chain { flex-wrap: nowrap; }
+    .story-stage { min-width: 100px; }
+    .summary-numbers { gap: 1.5rem; }
+  }
+
+  .approach-panel {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid var(--sand-dark);
+    overflow: hidden;
+  }
+
+  .approach-panel.highlight { border-color: var(--sage); }
+
+  .panel-header {
+    padding: 0.85rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .panel-header.traditional {
+    background: var(--sand);
+    color: var(--charcoal);
+  }
+
+  .panel-header.fixed {
+    background: var(--sage);
+    color: white;
+  }
+
+  .panel-header small {
+    font-weight: 400;
+    font-size: 0.78rem;
+    display: block;
+    margin-top: 0.15rem;
+    opacity: 0.85;
+  }
+
+  /* ── Stage rows ── */
+  .stage-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--sand-light);
+    min-height: 68px;
+  }
+
+  .stage-row:last-child { border-bottom: none; }
+
+  .stage-label {
+    width: 130px;
+    min-width: 130px;
+    padding: 0.5rem 0.6rem;
+    background: var(--sand-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .stage-fuel {
+    font-size: 0.68rem;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-top: 0.1rem;
+  }
+
+  .fuel-dots {
+    display: inline-flex;
+    gap: 2px;
+    margin-left: 3px;
+  }
+
+  .fuel-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--sand-dark);
+  }
+
+  .fuel-dot.active { background: var(--amber); }
+
+  .stage-bar-area {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .stage-bar-container {
+    height: 22px;
+    background: var(--sand-light);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .stage-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    position: relative;
+  }
+
+  .stage-bar.traditional-bar {
+    background: linear-gradient(90deg, var(--sand-dark), var(--amber));
+  }
+
+  .stage-bar.fixed-bar {
+    background: linear-gradient(90deg, var(--sand-dark), var(--sage));
+  }
+
+  .stage-bar-inflation {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: var(--terracotta);
+    opacity: 0.7;
+    border-radius: 0 4px 4px 0;
+    transition: width 0.4s ease;
+  }
+
+  .stage-numbers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+    color: var(--text-light);
+  }
+
+  .stage-numbers .price { font-weight: 600; color: var(--text-primary); }
+  .stage-numbers .profit { color: var(--sage-dark); }
+  .stage-numbers .increase { color: var(--terracotta); font-weight: 600; }
+
+  .final-price {
+    padding: 0.85rem 1.25rem;
+    background: var(--sand-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--sand-dark);
+  }
+
+  .final-price-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+  }
+
+  .final-price-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .final-price-value.traditional-price { color: var(--terracotta); }
+  .final-price-value.fixed-price { color: var(--sage-dark); }
+
+  .final-price-change {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  /* ── Waterfall Chart ── */
+  .waterfall-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .waterfall-legend {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+
+  .waterfall-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 280px;
+    padding: 0 0.5rem;
+    border-bottom: 2px solid var(--sand-dark);
+    position: relative;
+  }
+
+  .wf-pair {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 100%;
+    position: relative;
+  }
+
+  .wf-bar-stack {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    justify-content: flex-start;
+  }
+
+  .wf-segment {
+    transition: height 0.4s ease;
+    min-height: 0;
+    position: relative;
+  }
+
+  .wf-segment.cost { background: var(--sand-dark); }
+  .wf-segment.profit { background: var(--sage); }
+  .wf-segment.inflation-cost { background: var(--amber); }
+  .wf-segment.inflation-profit { background: var(--terracotta); opacity: 0.8; }
+
+  .wf-labels {
+    text-align: center;
+    padding-top: 0.4rem;
+  }
+
+  .wf-pair-label {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    text-align: center;
+    padding-top: 0.35rem;
+    font-weight: 600;
+    min-height: 2.5em;
+  }
+
+  .wf-pair-sublabel {
+    font-size: 0.62rem;
+    color: var(--text-light);
+    text-align: center;
+  }
+
+  .wf-bar-label {
+    font-size: 0.6rem;
+    color: var(--text-light);
+    text-align: center;
+    padding-top: 0.15rem;
+  }
+
+  /* ── Cascade / Snowball ── */
+  .cascade-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .cascade-tracks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 700px) {
+    .cascade-tracks { grid-template-columns: 1fr; }
+  }
+
+  .cascade-track h4 {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    padding: 0.4rem;
+    border-radius: 6px;
+  }
+
+  .cascade-track h4.trad-label {
+    background: var(--sand);
+    color: var(--charcoal);
+  }
+
+  .cascade-track h4.fixed-label {
+    background: var(--sage);
+    color: white;
+  }
+
+  .cascade-stage {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .cascade-stage-name {
+    width: 90px;
+    min-width: 90px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-align: right;
+    font-weight: 600;
+  }
+
+  .cascade-ball-track {
+    flex: 1;
+    height: 32px;
+    background: var(--sand-light);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cascade-ball {
+    height: 100%;
+    border-radius: 16px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: white;
+    min-width: 40px;
+  }
+
+  .cascade-ball.trad-ball {
+    background: linear-gradient(90deg, var(--amber-light), var(--terracotta));
+  }
+
+  .cascade-ball.fixed-ball {
+    background: linear-gradient(90deg, var(--sage-light), var(--sage-dark));
+  }
+
+  .cascade-arrow {
+    text-align: center;
+    color: var(--sand-dark);
+    font-size: 0.8rem;
+    margin: 0.15rem 0 0.15rem 90px;
+    padding-left: 0.75rem;
+  }
+
+  /* ── Timeline ── */
+  .timeline-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .timeline-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .timeline-btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--sand-dark);
+    background: var(--sand-light);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .timeline-btn:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+  }
+
+  .timeline-btn.active {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: white;
+  }
+
+  .timeline-chart {
+    position: relative;
+    height: 300px;
+    border: 1px solid var(--sand-dark);
+    border-radius: 8px;
+    background: var(--sand-light);
+    overflow: hidden;
+  }
+
+  .timeline-chart svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .timeline-event-markers {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+    color: var(--text-light);
+  }
+
+  .event-marker {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .event-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue-info);
+  }
+
+  /* ── Caveats ── */
+  .caveats-section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .caveats-section h2 {
+    font-size: 1.05rem;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+
+  .caveat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .caveat-card {
+    background: var(--sand-light);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--blue-info);
+  }
+
+  .caveat-card h4 {
+    font-size: 0.82rem;
+    color: var(--charcoal);
+    margin-bottom: 0.2rem;
+  }
+
+  .caveat-card p {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ── How it works ── */
+  .how-section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .how-section h2 {
+    font-size: 1.05rem;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+
+  .how-section ol {
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+  }
+
+  .how-section li { margin-bottom: 0.4rem; }
+
+  .how-example {
+    background: var(--sand-light);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .how-example strong { color: var(--terracotta-dark); }
+  .how-example .green { color: var(--sage-dark); font-weight: 600; }
+
+  /* ── Disclaimer ── */
+  .disclaimer {
+    background: var(--sand-light);
+    border-left: 4px solid var(--blue-info);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .disclaimer strong { color: var(--charcoal); }
+
+  /* ── Cashflow / Monthly Impact ── */
+  .cashflow-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .cashflow-intro {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .basket-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    background: var(--sand-light);
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .basket-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .basket-item label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .basket-item .bi-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .basket-item input[type="number"] {
+    width: 60px;
+    padding: 0.3rem 0.4rem;
+    border: 1px solid var(--sand-dark);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: center;
+    background: white;
+  }
+
+  .basket-item .bi-unit {
+    font-size: 0.72rem;
+    color: var(--text-light);
+  }
+
+  .cashflow-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .cashflow-grid { grid-template-columns: 1fr; }
+  }
+
+  .cashflow-card {
+    background: var(--sand-light);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .cashflow-card.trad-card { border-top: 4px solid var(--terracotta); }
+  .cashflow-card.fixed-card { border-top: 4px solid var(--sage); }
+
+  .cashflow-card h4 {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .cf-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--sand-dark);
+    font-size: 0.82rem;
+  }
+
+  .cf-row:last-child { border-bottom: none; }
+
+  .cf-row .cf-label { color: var(--text-secondary); }
+  .cf-row .cf-val { font-weight: 700; color: var(--charcoal); }
+  .cf-row .cf-val.up { color: var(--terracotta); }
+  .cf-row .cf-val.highlight { color: var(--sage-dark); }
+
+  .cashflow-summary {
+    background: var(--charcoal);
+    color: var(--sand-light);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .cf-summary-stat .cf-big {
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .cf-summary-stat .cf-big.trad { color: var(--terracotta-light); }
+  .cf-summary-stat .cf-big.fixed { color: var(--sage-light); }
+  .cf-summary-stat .cf-big.gap { color: var(--amber-light); }
+
+  .cf-summary-stat .cf-desc {
+    font-size: 0.75rem;
+    color: var(--sand-dark);
+    margin-top: 0.15rem;
+  }
+
+  .cf-product-rows {
+    margin-top: 1rem;
+  }
+
+  .cf-product-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--sand-dark);
+    font-size: 0.82rem;
+    align-items: center;
+  }
+
+  .cf-product-row:last-child { border-bottom: none; }
+
+  .cf-product-row .cf-prod-name {
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .cf-product-row .cf-prod-val {
+    text-align: right;
+    min-width: 65px;
+  }
+
+  /* ── Supplier Pressure ── */
+  .supplier-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--sand-dark);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .supplier-intro {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .supplier-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .supplier-card {
+    background: var(--sand-light);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--sage);
+    transition: border-color 0.4s;
+  }
+
+  .supplier-card.stress-low { border-left-color: var(--sage); }
+  .supplier-card.stress-med { border-left-color: var(--amber); }
+  .supplier-card.stress-high { border-left-color: var(--terracotta); }
+  .supplier-card.stress-critical { border-left-color: var(--red-alert); background: #fdf5f5; }
+
+  .supplier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .supplier-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+  }
+
+  .supplier-name .s-icon { margin-right: 0.3rem; }
+
+  .supplier-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .supplier-badge.ok { background: var(--sage-light); color: var(--sage-dark); }
+  .supplier-badge.caution { background: var(--amber-light); color: var(--amber-dark); }
+  .supplier-badge.danger { background: #f8d0d0; color: var(--terracotta-dark); }
+  .supplier-badge.critical { background: var(--red-alert); color: white; }
+
+  .supplier-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem 1rem;
+  }
+
+  .s-metric {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .s-metric .s-val {
+    font-weight: 700;
+    color: var(--charcoal);
+  }
+
+  .s-metric .s-val.neg { color: var(--terracotta); }
+  .s-metric .s-val.pos { color: var(--sage-dark); }
+
+  .supplier-bar-track {
+    height: 8px;
+    background: var(--sand-dark);
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .supplier-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease, background 0.4s;
+  }
+
+  .supplier-bar-fill.ok { background: var(--sage); }
+  .supplier-bar-fill.caution { background: var(--amber); }
+  .supplier-bar-fill.danger { background: var(--terracotta); }
+  .supplier-bar-fill.critical { background: var(--red-alert); }
+
+  .supplier-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--text-light);
+    margin-top: 0.15rem;
+  }
+
+  .supplier-summary-bar {
+    background: var(--charcoal);
+    color: var(--sand-light);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .ss-stat .ss-big {
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .ss-stat .ss-desc {
+    font-size: 0.72rem;
+    color: var(--sand-dark);
+    margin-top: 0.1rem;
+  }
+
+  /* ── Advanced toggle ── */
+  .advanced-toggle {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .advanced-toggle button {
+    background: none;
+    border: 1px solid var(--sand-dark);
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+
+  .advanced-toggle button:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+  }
+
+  .advanced-panel {
+    display: none;
+    background: white;
+    border: 1px solid var(--sand-dark);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .advanced-panel.visible { display: block; }
+
+  .advanced-panel h3 {
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+
+  .margin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .margin-control label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .margin-control .mc-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .margin-control input[type="range"] {
+    flex: 1;
+    accent-color: var(--terracotta);
+  }
+
+  .margin-control .val {
+    font-size: 0.78rem;
+    font-weight: 600;
+    min-width: 32px;
+    text-align: right;
+    color: var(--terracotta);
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sand-dark);
+    color: var(--text-light);
+    font-size: 0.78rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ════════ HERO ════════ -->
+  <header>
+    <h1>Why Your Grocery Bill Keeps Climbing</h1>
+    <p class="subtitle">An interactive exploration of how the snowball effect of percentage-based pricing amplifies cost increases at every stage of the supply chain.</p>
+    <div class="price-anchor">
+      <span>Bread 2024: ~A$3.80 &rarr; 2026: <strong>~A$5.20</strong></span>
+      <span>Butter 2024: ~A$5.50 &rarr; 2026: <strong>~A$7.60</strong></span>
+      <span>250g Coffee 2024: ~A$8.00 &rarr; 2026: <strong>~A$12.50</strong></span>
+    </div>
+  </header>
+
+  <!-- ════════ THE STORY ════════ -->
+  <div class="story-section">
+    <h2 id="storyHeading">The Journey of a Loaf of Bread</h2>
+    <p class="story-intro">
+      Every product you buy passes through multiple hands before it reaches you. At each stage, a business adds their costs and their profit. Traditionally, that profit is a <strong>percentage</strong> of total costs &mdash; so when costs rise, their dollar profit rises too, even if they didn't ask for more. Then the next business does the same, on top of the already-inflated price. This is the snowball effect.
+    </p>
+    <div class="story-chain" id="storyChain">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- ════════ CONTROLS ════════ -->
+  <div class="controls-panel">
+    <div class="controls-grid">
+      <div class="control-group">
+        <h3>Fuel &amp; Energy Cost Increase</h3>
+        <div class="slider-row">
+          <label>Cost shock:</label>
+          <input type="range" id="fuelSlider" min="0" max="200" value="0" step="5">
+          <div class="slider-value">+<span id="fuelValue">0</span>%</div>
+        </div>
+        <div class="crisis-presets" id="crisisPresets">
+          <button class="crisis-btn" data-crisis="reset" onclick="applyCrisis('reset')">
+            <span class="label">Reset</span>
+          </button>
+          <button class="crisis-btn" data-crisis="covid" onclick="applyCrisis('covid')">
+            <span class="label">COVID Freight</span>
+            <span class="detail">2020-21</span>
+          </button>
+          <button class="crisis-btn" data-crisis="ukraine" onclick="applyCrisis('ukraine')">
+            <span class="label">Ukraine Grain</span>
+            <span class="detail">2022</span>
+          </button>
+          <button class="crisis-btn" data-crisis="redsea" onclick="applyCrisis('redsea')">
+            <span class="label">Red Sea Crisis</span>
+            <span class="detail">2024</span>
+          </button>
+          <button class="crisis-btn" data-crisis="iran" onclick="applyCrisis('iran')">
+            <span class="label">Iran Fuel Crisis</span>
+            <span class="detail">2025-26</span>
+          </button>
+        </div>
+      </div>
+      <div class="control-group">
+        <h3>Competition Pressure</h3>
+        <div class="slider-row">
+          <label>Market pressure:</label>
+          <input type="range" id="competitionSlider" min="0" max="80" value="0" step="5">
+          <div class="slider-value sage"><span id="competitionValue">0</span>%</div>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--sand-dark); margin-top: 0.3rem;">
+          How much competitive pressure forces businesses to absorb cost increases rather than pass them on. At 0%, all costs are passed through. At 80%, businesses absorb most increases.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ PRODUCT TABS ════════ -->
+  <div class="product-tabs">
+    <div class="product-tab active" data-product="bread" onclick="switchProduct('bread')">
+      Local Bread <span class="stages-count">(5 stages)</span>
+    </div>
+    <div class="product-tab" data-product="butter" onclick="switchProduct('butter')">
+      Imported Butter <span class="stages-count">(6 stages)</span>
+    </div>
+    <div class="product-tab" data-product="coffee" onclick="switchProduct('coffee')">
+      Imported Coffee <span class="stages-count">(8 stages)</span>
+    </div>
+  </div>
+
+  <!-- ════════ SUMMARY ════════ -->
+  <div class="summary-box">
+    <h3>Consumer Price Impact</h3>
+    <div class="summary-numbers">
+      <div class="summary-stat">
+        <span class="value trad" id="summaryTrad">$3.80</span>
+        <span class="label">% Profit (traditional)</span>
+      </div>
+      <div class="summary-stat">
+        <span class="value fixed" id="summaryFixed">$3.80</span>
+        <span class="label">$ Profit (alternative)</span>
+      </div>
+      <div class="summary-stat">
+        <span class="value gap" id="summaryGap">$0.00</span>
+        <span class="label">Snowball surcharge</span>
+      </div>
+    </div>
+    <div class="summary-insight" id="summaryInsight">
+      Move the fuel slider above to see how costs snowball through the supply chain.
+    </div>
+  </div>
+
+  <!-- ════════ VIEW TABS ════════ -->
+  <div class="view-tabs">
+    <div class="view-tab active" data-view="comparison" onclick="switchView('comparison')">Side-by-Side</div>
+    <div class="view-tab" data-view="waterfall" onclick="switchView('waterfall')">Cost Breakdown</div>
+    <div class="view-tab" data-view="cascade" onclick="switchView('cascade')">Snowball Effect</div>
+    <div class="view-tab" data-view="timeline" onclick="switchView('timeline')">Over Time</div>
+    <div class="view-tab" data-view="cashflow" onclick="switchView('cashflow')">Monthly Impact</div>
+    <div class="view-tab" data-view="supplier" onclick="switchView('supplier')">Supplier Pressure</div>
+  </div>
+
+  <!-- ──── VIEW: COMPARISON ──── -->
+  <div class="view-panel active" id="view-comparison">
+    <div class="comparison">
+      <div class="approach-panel">
+        <div class="panel-header traditional">
+          % Profit (How It Works Today)
+          <small>Each business keeps their traditional profit percentage &mdash; dollar profit grows with costs</small>
+        </div>
+        <div id="traditionalStages"></div>
+        <div class="final-price">
+          <span class="final-price-label">You pay</span>
+          <div>
+            <span class="final-price-value traditional-price" id="tradFinal">$3.80</span>
+            <div class="final-price-change" id="tradChange"></div>
+          </div>
+        </div>
+      </div>
+      <div class="approach-panel highlight">
+        <div class="panel-header fixed">
+          $ Profit (The Alternative)
+          <small>Each business keeps the same dollar profit as before &mdash; no windfall</small>
+        </div>
+        <div id="fixedStages"></div>
+        <div class="final-price">
+          <span class="final-price-label">You pay</span>
+          <div>
+            <span class="final-price-value fixed-price" id="fixedFinal">$3.80</span>
+            <div class="final-price-change" id="fixedChange"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── VIEW: WATERFALL ──── -->
+  <div class="view-panel" id="view-waterfall">
+    <div class="waterfall-container">
+      <div class="waterfall-legend">
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--sand-dark)"></div> Base cost</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--sage)"></div> Base profit</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--amber)"></div> Added cost (fuel)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--terracotta); opacity:0.8"></div> Extra profit (snowball)</div>
+      </div>
+      <div class="waterfall-chart" id="waterfallChart"></div>
+      <div id="waterfallLabels" style="display:flex; gap:3px; padding: 0 0.5rem;"></div>
+    </div>
+  </div>
+
+  <!-- ──── VIEW: CASCADE ──── -->
+  <div class="view-panel" id="view-cascade">
+    <div class="cascade-container">
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:0.5rem;">
+        Watch the cost increase <strong>snowball</strong> through each stage. Both tracks start with the same fuel increase &mdash; but the % profit track grows the "ball" at every stage because each business takes a bigger dollar cut.
+      </p>
+      <div class="cascade-tracks" id="cascadeTracks"></div>
+    </div>
+  </div>
+
+  <!-- ──── VIEW: TIMELINE ──── -->
+  <div class="view-panel" id="view-timeline">
+    <div class="timeline-container">
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:0.75rem;">
+        Rather than a single shock, see how <strong>gradual fuel increases over 18 months</strong> compound through the supply chain. Select a scenario to see the timeline.
+      </p>
+      <div class="timeline-controls">
+        <button class="timeline-btn active" data-scenario="iran" onclick="switchTimeline('iran')">Iran Crisis (2025-26)</button>
+        <button class="timeline-btn" data-scenario="ukraine" onclick="switchTimeline('ukraine')">Ukraine (2022)</button>
+        <button class="timeline-btn" data-scenario="covid" onclick="switchTimeline('covid')">COVID Freight (2020-21)</button>
+      </div>
+      <div class="timeline-chart" id="timelineChart"></div>
+      <div class="timeline-event-markers" id="timelineEvents"></div>
+    </div>
+  </div>
+
+  <!-- ──── VIEW: CASHFLOW ──── -->
+  <div class="view-panel" id="view-cashflow">
+    <div class="cashflow-container">
+      <p class="cashflow-intro">
+        The per-unit price difference might seem small. But when you multiply it across a household's <strong>monthly purchases</strong>, the cashflow pressure adds up fast. Adjust the quantities below to match your household.
+      </p>
+
+      <div class="basket-controls">
+        <div class="basket-item">
+          <label>Bread</label>
+          <div class="bi-row">
+            <input type="number" id="qty-bread" value="8" min="0" max="50" onchange="renderCashflow()">
+            <span class="bi-unit">loaves / month</span>
+          </div>
+        </div>
+        <div class="basket-item">
+          <label>Butter</label>
+          <div class="bi-row">
+            <input type="number" id="qty-butter" value="3" min="0" max="20" onchange="renderCashflow()">
+            <span class="bi-unit">pounds / month</span>
+          </div>
+        </div>
+        <div class="basket-item">
+          <label>Coffee</label>
+          <div class="bi-row">
+            <input type="number" id="qty-coffee" value="2" min="0" max="20" onchange="renderCashflow()">
+            <span class="bi-unit">bags / month</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Per-product breakdown -->
+      <div class="cf-product-rows" id="cfProductRows"></div>
+
+      <!-- Monthly totals side by side -->
+      <div class="cashflow-grid" id="cfCards"></div>
+
+      <!-- Annual summary bar -->
+      <div class="cashflow-summary" id="cfSummary"></div>
+    </div>
+  </div>
+
+  <!-- ──── VIEW: SUPPLIER PRESSURE ──── -->
+  <div class="view-panel" id="view-supplier">
+    <div class="supplier-container">
+      <p class="supplier-intro">
+        It's not just consumers who feel the pressure. Every business in the chain must <strong>pay higher input costs upfront</strong> before they receive payment from the next buyer &mdash; often 30 to 90 days later. Smaller operators with thin cash reserves can be squeezed out entirely, breaking the chain for everyone.
+      </p>
+      <div class="supplier-cards" id="supplierCards"></div>
+      <div class="supplier-summary-bar" id="supplierSummary"></div>
+    </div>
+  </div>
+
+  <!-- ════════ ADVANCED ════════ -->
+  <div class="advanced-toggle">
+    <button onclick="toggleAdvanced()">Adjust individual stage profit percentages</button>
+  </div>
+  <div class="advanced-panel" id="advancedPanel"></div>
+
+  <!-- ════════ WHAT THIS DOESN'T CAPTURE ════════ -->
+  <div class="caveats-section">
+    <h2>What This Model Doesn't Capture</h2>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">
+      This is a simplified view of one mechanism. Real supply chains are messier &mdash; and that's OK. Understanding this one pattern helps explain a meaningful part of why prices rise faster than expected.
+    </p>
+    <div class="caveat-grid">
+      <div class="caveat-card">
+        <h4>Competition</h4>
+        <p>In competitive markets, businesses often absorb some cost increases to avoid losing customers. The competition slider above lets you explore this.</p>
+      </div>
+      <div class="caveat-card">
+        <h4>Wages &amp; Other Costs</h4>
+        <p>When fuel rises, so do wages, rent, and insurance. Businesses face real cost increases beyond fuel &mdash; the percentage model isn't pure greed.</p>
+      </div>
+      <div class="caveat-card">
+        <h4>Contracts &amp; Buffers</h4>
+        <p>Large buyers often have 3-6 month fixed-price contracts. Cost shocks don't hit consumers instantly &mdash; there's a lag this model doesn't show.</p>
+      </div>
+      <div class="caveat-card">
+        <h4>Currency Exchange</h4>
+        <p>For imported goods, a weakening local currency amplifies costs independently of fuel &mdash; a second compounding layer not modelled here.</p>
+      </div>
+      <div class="caveat-card">
+        <h4>Government Intervention</h4>
+        <p>Fuel excise cuts, agricultural subsidies, and strategic reserves all dampen cost pass-through in ways this model doesn't include.</p>
+      </div>
+      <div class="caveat-card">
+        <h4>Speculation</h4>
+        <p>Commodity prices often spike on anticipated disruption, not actual shortages. The initial cost shock itself may be partly speculative.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ HOW IT WORKS ════════ -->
+  <div class="how-section">
+    <h2>How Does the Snowball Work?</h2>
+    <ol>
+      <li><strong>Each stage</strong> in the supply chain has operating costs and a fuel/energy sensitivity (shown as dots).</li>
+      <li>When fuel costs rise, each stage's <strong>operating costs</strong> increase based on their fuel exposure.</li>
+      <li>Under <strong>% profit</strong>, each stage applies their profit percentage to the new, higher total &mdash; so their dollar profit grows, unintentionally.</li>
+      <li>Under <strong>$ profit</strong>, each stage adds the same dollar profit as before. Only actual cost increases pass through.</li>
+      <li>The gap between the two is the <strong>snowball surcharge</strong> &mdash; price increase caused by the pricing method, not by actual costs.</li>
+    </ol>
+    <div class="how-example">
+      <strong>Simple example:</strong> A baker buys flour for $1.00 and adds 50% profit = sells for $1.50 (profit: $0.50).<br>
+      Flour rises to $1.40. With 50% profit: sells for $2.10 (profit: <strong>$0.70 &mdash; $0.20 extra they didn't ask for</strong>).<br>
+      With fixed $ profit: sells for $1.90 (profit: <span class="green">$0.50 &mdash; same as before</span>). You save $0.20.<br><br>
+      Now imagine that happening <strong>5 to 8 times</strong>, one business after another. Each one's increase feeds into the next one's base cost. That's the snowball.
+    </div>
+  </div>
+
+  <!-- ════════ DISCLAIMER ════════ -->
+  <div class="disclaimer">
+    <strong>About this model:</strong> This is a simplified educational tool showing one mechanism of price transmission through supply chains. Real pricing involves competition, regulation, contracts, wages, and many factors not shown here. Most businesses in the supply chain are small operators with tight margins &mdash; this model shows a systemic effect, not individual greed. The goal is to illustrate how percentage-based pricing can amplify cost increases, not to assign blame or prescribe policy. Prices shown are illustrative.
+  </div>
+
+  <footer>
+    Supply Chain Inflation Visualizer v4 &mdash; Australia &mdash; March 2026
+  </footer>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// DATA MODEL
+// ══════════════════════════════════════════════════════════════
+
+// All prices in AUD. Supply chains reflect Australian market.
+// Supplier cashflow params: monthlyUnits (units handled/mo), paymentTermsDays (when they get paid),
+// cashReserveMonths (how many months of operating costs they hold as buffer), businessType
+const products = {
+  bread: {
+    name: "Loaf of Bread (Local)",
+    storyTitle: "The Journey of a Loaf of Bread",
+    icon: "bread",
+    stages: [
+      { name: "Grain Farming",  baseCost: 0.55, fuelSensitivity: 0.70, marginPct: 12, character: "Dave", role: "Grows wheat in SA", icon: "\u{1F33E}",
+        monthlyUnits: 80000, paymentTermsDays: 45, cashReserveMonths: 2.5, businessType: "Family farm" },
+      { name: "Milling",        baseCost: 0.35, fuelSensitivity: 0.50, marginPct: 18, character: "Sarah", role: "Grinds the flour", icon: "\u{1F3ED}",
+        monthlyUnits: 200000, paymentTermsDays: 30, cashReserveMonths: 4, businessType: "Mid-size processor" },
+      { name: "Bakery",         baseCost: 0.90, fuelSensitivity: 0.35, marginPct: 22, character: "Tom", role: "Bakes the bread", icon: "\u{1F35E}",
+        monthlyUnits: 50000, paymentTermsDays: 30, cashReserveMonths: 2, businessType: "Small bakery" },
+      { name: "Distribution",   baseCost: 0.40, fuelSensitivity: 0.85, marginPct: 16, character: "Lisa", role: "Drives the truck", icon: "\u{1F69A}",
+        monthlyUnits: 150000, paymentTermsDays: 60, cashReserveMonths: 1.5, businessType: "Small freight co." },
+      { name: "Supermarket",    baseCost: 0.65, fuelSensitivity: 0.25, marginPct: 28, character: "Raj", role: "Stocks at Woolies", icon: "\u{1F6D2}",
+        monthlyUnits: 500000, paymentTermsDays: 0, cashReserveMonths: 12, businessType: "Major retailer" },
+    ]
+  },
+  butter: {
+    name: "Block of Butter (NZ Import)",
+    storyTitle: "The Journey of a Block of Butter",
+    icon: "butter",
+    stages: [
+      { name: "Dairy Farming",   baseCost: 0.90, fuelSensitivity: 0.60, marginPct: 10, character: "Hemi", role: "Dairy farmer, Waikato NZ", icon: "\u{1F404}",
+        monthlyUnits: 60000, paymentTermsDays: 30, cashReserveMonths: 2, businessType: "Family farm" },
+      { name: "Processing",      baseCost: 0.55, fuelSensitivity: 0.45, marginPct: 16, character: "Aroha", role: "Churns at Fonterra", icon: "\u{1F9C8}",
+        monthlyUnits: 500000, paymentTermsDays: 30, cashReserveMonths: 6, businessType: "Co-operative" },
+      { name: "Trans-Tasman Ship",baseCost: 0.45, fuelSensitivity: 0.90, marginPct: 14, character: "Carlos", role: "Ships NZ to AU", icon: "\u{1F6A2}",
+        monthlyUnits: 300000, paymentTermsDays: 45, cashReserveMonths: 3, businessType: "Shipping line" },
+      { name: "Import/Customs",  baseCost: 0.20, fuelSensitivity: 0.10, marginPct: 20, character: "Priya", role: "Clears AU customs", icon: "\u{1F4CB}",
+        monthlyUnits: 200000, paymentTermsDays: 14, cashReserveMonths: 5, businessType: "Customs broker" },
+      { name: "Distribution",    baseCost: 0.45, fuelSensitivity: 0.85, marginPct: 16, character: "Mike", role: "Delivers around Melb", icon: "\u{1F69A}",
+        monthlyUnits: 120000, paymentTermsDays: 60, cashReserveMonths: 1.5, businessType: "Small freight co." },
+      { name: "Supermarket",     baseCost: 0.70, fuelSensitivity: 0.25, marginPct: 30, character: "Jenny", role: "Stocks at Coles", icon: "\u{1F6D2}",
+        monthlyUnits: 400000, paymentTermsDays: 0, cashReserveMonths: 12, businessType: "Major retailer" },
+    ]
+  },
+  coffee: {
+    name: "250g Coffee (Imported)",
+    storyTitle: "The Journey of a Bag of Coffee",
+    icon: "coffee",
+    stages: [
+      { name: "Coffee Farming",  baseCost: 0.70, fuelSensitivity: 0.50, marginPct: 8, character: "Maria", role: "Grows beans in PNG", icon: "\u{1FAB4}",
+        monthlyUnits: 40000, paymentTermsDays: 60, cashReserveMonths: 1, businessType: "Smallholder farmer" },
+      { name: "Processing",      baseCost: 0.40, fuelSensitivity: 0.40, marginPct: 14, character: "Pedro", role: "Washes & dries", icon: "\u{2615}",
+        monthlyUnits: 100000, paymentTermsDays: 45, cashReserveMonths: 1.5, businessType: "Village co-op" },
+      { name: "Export Agent",    baseCost: 0.25, fuelSensitivity: 0.15, marginPct: 18, character: "Ana", role: "Arranges PNG export", icon: "\u{1F4E6}",
+        monthlyUnits: 200000, paymentTermsDays: 30, cashReserveMonths: 4, businessType: "Trade agent" },
+      { name: "Intl. Shipping",  baseCost: 0.85, fuelSensitivity: 0.90, marginPct: 12, character: "James", role: "Ships to Sydney", icon: "\u{1F6A2}",
+        monthlyUnits: 250000, paymentTermsDays: 45, cashReserveMonths: 3, businessType: "Shipping line" },
+      { name: "Import/Customs",  baseCost: 0.30, fuelSensitivity: 0.10, marginPct: 16, character: "Aisha", role: "Clears AU customs", icon: "\u{1F4CB}",
+        monthlyUnits: 150000, paymentTermsDays: 14, cashReserveMonths: 5, businessType: "Customs broker" },
+      { name: "Roasting",        baseCost: 1.00, fuelSensitivity: 0.55, marginPct: 25, character: "Ben", role: "Roasts in Melbourne", icon: "\u{1F525}",
+        monthlyUnits: 30000, paymentTermsDays: 30, cashReserveMonths: 3, businessType: "Small roaster" },
+      { name: "Packaging",       baseCost: 0.45, fuelSensitivity: 0.30, marginPct: 20, character: "Sophie", role: "Bags & labels", icon: "\u{1F3F7}\uFE0F",
+        monthlyUnits: 80000, paymentTermsDays: 30, cashReserveMonths: 3, businessType: "Packaging co." },
+      { name: "Supermarket",     baseCost: 0.75, fuelSensitivity: 0.25, marginPct: 32, character: "Dan", role: "Stocks at Woolies", icon: "\u{1F6D2}",
+        monthlyUnits: 300000, paymentTermsDays: 0, cashReserveMonths: 12, businessType: "Major retailer" },
+    ]
+  }
+};
+
+// Crisis presets: { fuel%, stageOverrides (optional fuel sensitivity boosts) }
+const crisisPresets = {
+  reset:   { fuel: 0, label: "Reset", description: "" },
+  covid:   { fuel: 45, label: "COVID Freight Surge (2020-21)", description: "Global shipping container rates surged 4-5x. Port congestion and labour shortages compounded delays." },
+  ukraine: { fuel: 75, label: "Ukraine Grain Shock (2022)", description: "Russia-Ukraine conflict disrupted grain exports and sent energy prices soaring across Europe and beyond." },
+  redsea:  { fuel: 60, label: "Red Sea Shipping Crisis (2024)", description: "Houthi attacks on Red Sea shipping forced vessels around the Cape of Good Hope, adding weeks and cost to routes." },
+  iran:    { fuel: 120, label: "Iran Fuel Crisis (2025-26)", description: "US-Iran conflict disrupted Middle East oil supply, sending fuel costs sharply higher with cascading effects." },
+};
+
+// Timeline scenarios (18 months of data)
+const timelineScenarios = {
+  iran: {
+    label: "Iran Crisis (2025-26)",
+    months: ["Jun 25","Jul","Aug","Sep","Oct","Nov","Dec","Jan 26","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"],
+    fuelPcts: [5, 12, 25, 40, 55, 70, 85, 95, 105, 115, 120, 120, 115, 110, 108, 105, 100, 95],
+    events: [
+      { month: 0, label: "Strait of Hormuz tensions escalate" },
+      { month: 3, label: "Oil tanker attacks begin" },
+      { month: 6, label: "OPEC emergency meeting" },
+      { month: 10, label: "Peak fuel prices" },
+      { month: 15, label: "Diplomatic talks resume" },
+    ]
+  },
+  ukraine: {
+    label: "Ukraine (2022)",
+    months: ["Feb 22","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan 23","Feb","Mar","Apr","May","Jun","Jul"],
+    fuelPcts: [10, 35, 55, 70, 75, 70, 65, 55, 50, 45, 42, 40, 38, 35, 32, 30, 28, 25],
+    events: [
+      { month: 0, label: "Russia invades Ukraine" },
+      { month: 2, label: "EU sanctions on Russian oil" },
+      { month: 4, label: "Grain export blockade" },
+      { month: 7, label: "Grain corridor deal" },
+      { month: 12, label: "Markets begin stabilising" },
+    ]
+  },
+  covid: {
+    label: "COVID Freight (2020-21)",
+    months: ["Mar 20","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan 21","Feb","Mar","Apr","May","Jun","Jul","Aug"],
+    fuelPcts: [-10, -15, -5, 5, 10, 15, 20, 25, 30, 35, 38, 40, 42, 45, 45, 43, 40, 38],
+    events: [
+      { month: 0, label: "Pandemic lockdowns begin" },
+      { month: 1, label: "Oil demand collapses" },
+      { month: 5, label: "Shipping demand surges" },
+      { month: 9, label: "Container shortage peaks" },
+      { month: 14, label: "Port congestion worldwide" },
+    ]
+  }
+};
+
+let currentProduct = 'bread';
+let currentView = 'comparison';
+let currentTimeline = 'iran';
+let customMargins = {};
+
+// Basket defaults (monthly quantities)
+const basketDefaults = { bread: 8, butter: 3, coffee: 2 };
+
+// ══════════════════════════════════════════════════════════════
+// CALCULATION ENGINE
+// ══════════════════════════════════════════════════════════════
+
+function getMargin(product, stageIdx) {
+  const key = `${product}_${stageIdx}`;
+  return customMargins[key] !== undefined ? customMargins[key] : products[product].stages[stageIdx].marginPct;
+}
+
+function calculate(product, fuelPct, competitionPct) {
+  const stages = products[product].stages;
+  const fuelMult = fuelPct / 100;
+  const compAbsorb = competitionPct / 100; // fraction of cost increase absorbed
+
+  // Pass 1: Baseline
+  let baseInput = 0;
+  const baseData = stages.map((s, i) => {
+    const totalCost = baseInput + s.baseCost;
+    const margin = getMargin(product, i);
+    const sellPrice = totalCost * (1 + margin / 100);
+    const profit = sellPrice - totalCost;
+    const result = { totalCost, sellPrice, profit, margin, ownCost: s.baseCost };
+    baseInput = sellPrice;
+    return result;
+  });
+
+  // Pass 2: Traditional % profit
+  let tradInput = 0;
+  const tradData = stages.map((s, i) => {
+    const rawFuelImpact = s.baseCost * s.fuelSensitivity * fuelMult;
+    const fuelImpact = rawFuelImpact * (1 - compAbsorb);
+    const adjustedCost = s.baseCost + fuelImpact;
+    const totalCost = tradInput + adjustedCost;
+    const margin = getMargin(product, i);
+    const sellPrice = totalCost * (1 + margin / 100);
+    const profit = sellPrice - totalCost;
+    const result = {
+      name: s.name, character: s.character, role: s.role, icon: s.icon,
+      fuelSensitivity: s.fuelSensitivity,
+      ownCost: adjustedCost, inputCost: tradInput, totalCost, sellPrice, profit,
+      baseProfit: baseData[i].profit, baseSellPrice: baseData[i].sellPrice,
+      baseTotalCost: baseData[i].totalCost, baseOwnCost: baseData[i].ownCost,
+      margin
+    };
+    tradInput = sellPrice;
+    return result;
+  });
+
+  // Pass 3: Fixed $ profit
+  let fixedInput = 0;
+  const fixedData = stages.map((s, i) => {
+    const rawFuelImpact = s.baseCost * s.fuelSensitivity * fuelMult;
+    const fuelImpact = rawFuelImpact * (1 - compAbsorb);
+    const adjustedCost = s.baseCost + fuelImpact;
+    const totalCost = fixedInput + adjustedCost;
+    const sellPrice = totalCost + baseData[i].profit;
+    const result = {
+      name: s.name, character: s.character, role: s.role, icon: s.icon,
+      fuelSensitivity: s.fuelSensitivity,
+      ownCost: adjustedCost, inputCost: fixedInput, totalCost, sellPrice,
+      profit: baseData[i].profit, baseProfit: baseData[i].profit,
+      baseSellPrice: baseData[i].sellPrice,
+      baseTotalCost: baseData[i].totalCost, baseOwnCost: baseData[i].ownCost,
+      margin: getMargin(product, i)
+    };
+    fixedInput = sellPrice;
+    return result;
+  });
+
+  return {
+    basePrice: baseData[baseData.length - 1].sellPrice,
+    tradStages: tradData,
+    fixedStages: fixedData,
+    tradFinal: tradData[tradData.length - 1].sellPrice,
+    fixedFinal: fixedData[fixedData.length - 1].sellPrice,
+    baseData
+  };
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDERING
+// ══════════════════════════════════════════════════════════════
+
+function fuelDots(sensitivity) {
+  const count = Math.round(sensitivity * 5);
+  let html = '<span class="fuel-dots">';
+  for (let i = 0; i < 5; i++) html += `<span class="fuel-dot${i < count ? ' active' : ''}"></span>`;
+  return html + '</span>';
+}
+
+function renderStory(data) {
+  document.getElementById('storyHeading').textContent = products[currentProduct].storyTitle;
+  const container = document.getElementById('storyChain');
+  const fuelPct = parseInt(document.getElementById('fuelSlider').value);
+  const stages = data.tradStages;
+
+  container.innerHTML = stages.map(s => {
+    const increase = s.sellPrice - s.baseSellPrice;
+    const costClass = increase > 0.005 ? 'up' : 'neutral';
+    const costText = increase > 0.005 ? `+$${increase.toFixed(2)}` : 'No change';
+    return `
+      <div class="story-stage">
+        <span class="story-icon">${s.icon}</span>
+        <div class="story-name">${s.character}</div>
+        <div class="story-role">${s.role}</div>
+        <div class="story-cost-change ${costClass}">${costText}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderStages(containerId, stagesData, type, maxPrice) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = stagesData.map(s => {
+    const barWidth = Math.min((s.sellPrice / maxPrice) * 100, 100);
+    const baseWidth = Math.min((s.baseSellPrice / maxPrice) * 100, 100);
+    const inflationWidth = Math.max(barWidth - baseWidth, 0);
+    const increase = s.sellPrice - s.baseSellPrice;
+    const profitNote = type === 'traditional' && increase > 0.005
+      ? ` (was $${s.baseProfit.toFixed(2)})` : '';
+
+    return `
+      <div class="stage-row">
+        <div class="stage-label">
+          ${s.name}
+          <span class="stage-fuel">Fuel ${fuelDots(s.fuelSensitivity)}</span>
+        </div>
+        <div class="stage-bar-area">
+          <div class="stage-bar-container">
+            <div class="stage-bar ${type}-bar" style="width:${barWidth}%">
+              ${inflationWidth > 0.5 ? `<div class="stage-bar-inflation" style="width:${(inflationWidth/barWidth*100).toFixed(1)}%"></div>` : ''}
+            </div>
+          </div>
+          <div class="stage-numbers">
+            <span class="price">$${s.sellPrice.toFixed(2)}</span>
+            <span class="profit">Profit: $${s.profit.toFixed(2)}${profitNote}</span>
+            ${increase > 0.005 ? `<span class="increase">+$${increase.toFixed(2)}</span>` : '<span></span>'}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderWaterfall(data) {
+  const chart = document.getElementById('waterfallChart');
+  const labels = document.getElementById('waterfallLabels');
+  const stages = data.tradStages;
+  const maxVal = data.tradFinal * 1.08;
+
+  chart.innerHTML = '';
+  labels.innerHTML = '';
+
+  stages.forEach((s, i) => {
+    const baseCostH = (s.baseOwnCost / maxVal * 100);
+    const baseProfitH = (s.baseProfit / maxVal * 100);
+    const addedCostH = ((s.ownCost - s.baseOwnCost) / maxVal * 100);
+    const extraProfitH = ((s.profit - s.baseProfit) / maxVal * 100);
+
+    const pair = document.createElement('div');
+    pair.className = 'wf-pair';
+    pair.innerHTML = `
+      <div class="wf-bar-stack">
+        ${extraProfitH > 0.2 ? `<div class="wf-segment inflation-profit" style="height:${extraProfitH}%" title="Extra profit: $${(s.profit - s.baseProfit).toFixed(2)}"></div>` : ''}
+        ${addedCostH > 0.2 ? `<div class="wf-segment inflation-cost" style="height:${addedCostH}%" title="Added fuel cost: $${(s.ownCost - s.baseOwnCost).toFixed(2)}"></div>` : ''}
+        <div class="wf-segment profit" style="height:${baseProfitH}%" title="Base profit: $${s.baseProfit.toFixed(2)}"></div>
+        <div class="wf-segment cost" style="height:${baseCostH}%" title="Base cost: $${s.baseOwnCost.toFixed(2)}"></div>
+      </div>
+    `;
+    chart.appendChild(pair);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'wf-pair';
+    lbl.innerHTML = `<div class="wf-pair-label">${s.icon} ${s.character}<div class="wf-pair-sublabel">$${s.ownCost.toFixed(2)} + $${s.profit.toFixed(2)}</div></div>`;
+    labels.appendChild(lbl);
+  });
+}
+
+function renderCascade(data) {
+  const container = document.getElementById('cascadeTracks');
+  const tradStages = data.tradStages;
+  const fixedStages = data.fixedStages;
+  const maxPrice = Math.max(data.tradFinal, data.fixedFinal) * 1.05;
+
+  let tradHTML = '<div class="cascade-track"><h4 class="trad-label">% Profit (traditional)</h4>';
+  let fixedHTML = '<div class="cascade-track"><h4 class="fixed-label">$ Profit (alternative)</h4>';
+
+  tradStages.forEach((s, i) => {
+    const w = (s.sellPrice / maxPrice * 100).toFixed(1);
+    tradHTML += `
+      <div class="cascade-stage">
+        <div class="cascade-stage-name">${s.icon} ${s.character}</div>
+        <div class="cascade-ball-track">
+          <div class="cascade-ball trad-ball" style="width:${w}%">$${s.sellPrice.toFixed(2)}</div>
+        </div>
+      </div>
+    `;
+    if (i < tradStages.length - 1) tradHTML += `<div class="cascade-arrow">\u2193</div>`;
+  });
+
+  fixedStages.forEach((s, i) => {
+    const w = (s.sellPrice / maxPrice * 100).toFixed(1);
+    fixedHTML += `
+      <div class="cascade-stage">
+        <div class="cascade-stage-name">${s.icon} ${s.character}</div>
+        <div class="cascade-ball-track">
+          <div class="cascade-ball fixed-ball" style="width:${w}%">$${s.sellPrice.toFixed(2)}</div>
+        </div>
+      </div>
+    `;
+    if (i < fixedStages.length - 1) fixedHTML += `<div class="cascade-arrow">\u2193</div>`;
+  });
+
+  tradHTML += '</div>';
+  fixedHTML += '</div>';
+  container.innerHTML = tradHTML + fixedHTML;
+}
+
+function renderTimeline() {
+  const scenario = timelineScenarios[currentTimeline];
+  const competitionPct = parseInt(document.getElementById('competitionSlider').value);
+  const chartEl = document.getElementById('timelineChart');
+  const eventsEl = document.getElementById('timelineEvents');
+
+  // Calculate prices for each month
+  const tradPrices = [];
+  const fixedPrices = [];
+  const basePrices = [];
+
+  scenario.fuelPcts.forEach(fp => {
+    const d = calculate(currentProduct, fp, competitionPct);
+    tradPrices.push(d.tradFinal);
+    fixedPrices.push(d.fixedFinal);
+    basePrices.push(d.basePrice);
+  });
+
+  const allPrices = [...tradPrices, ...fixedPrices];
+  const minP = Math.min(...allPrices) * 0.92;
+  const maxP = Math.max(...allPrices) * 1.05;
+  const n = scenario.months.length;
+
+  const pad = { top: 25, right: 15, bottom: 40, left: 50 };
+  const w = 800, h = 300;
+  const plotW = w - pad.left - pad.right;
+  const plotH = h - pad.top - pad.bottom;
+
+  function x(i) { return pad.left + (i / (n - 1)) * plotW; }
+  function y(v) { return pad.top + (1 - (v - minP) / (maxP - minP)) * plotH; }
+
+  function polyline(prices, color, dashed) {
+    const points = prices.map((p, i) => `${x(i).toFixed(1)},${y(p).toFixed(1)}`).join(' ');
+    return `<polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.5" ${dashed ? 'stroke-dasharray="6,4"' : ''}/>`;
+  }
+
+  // Grid lines
+  let gridLines = '';
+  const steps = 5;
+  for (let i = 0; i <= steps; i++) {
+    const val = minP + (maxP - minP) * (i / steps);
+    const yy = y(val);
+    gridLines += `<line x1="${pad.left}" y1="${yy}" x2="${w - pad.right}" y2="${yy}" stroke="#d4c5a9" stroke-width="0.5"/>`;
+    gridLines += `<text x="${pad.left - 8}" y="${yy + 4}" text-anchor="end" font-size="10" fill="#8a827d">$${val.toFixed(2)}</text>`;
+  }
+
+  // Month labels
+  let monthLabels = '';
+  scenario.months.forEach((m, i) => {
+    if (i % 3 === 0 || i === n - 1) {
+      monthLabels += `<text x="${x(i)}" y="${h - 8}" text-anchor="middle" font-size="9" fill="#8a827d">${m}</text>`;
+    }
+  });
+
+  // Event markers
+  let eventMarkers = '';
+  scenario.events.forEach(e => {
+    const ex = x(e.month);
+    eventMarkers += `<line x1="${ex}" y1="${pad.top}" x2="${ex}" y2="${pad.top + plotH}" stroke="#5b8fb9" stroke-width="1" stroke-dasharray="3,3"/>`;
+    eventMarkers += `<circle cx="${ex}" cy="${pad.top + plotH}" r="4" fill="#5b8fb9"/>`;
+  });
+
+  // Base price line
+  const baseLine = `<line x1="${pad.left}" y1="${y(basePrices[0])}" x2="${w - pad.right}" y2="${y(basePrices[0])}" stroke="#8a827d" stroke-width="1" stroke-dasharray="4,4"/>`;
+  const baseLabel = `<text x="${w - pad.right + 2}" y="${y(basePrices[0]) + 4}" font-size="9" fill="#8a827d">base</text>`;
+
+  chartEl.innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
+      ${gridLines}
+      ${monthLabels}
+      ${baseLine}${baseLabel}
+      ${eventMarkers}
+      ${polyline(fixedPrices, '#5d8261', true)}
+      ${polyline(tradPrices, '#c1666b', false)}
+      <text x="${w - pad.right}" y="${y(tradPrices[n-1]) - 6}" text-anchor="end" font-size="10" font-weight="bold" fill="#c1666b">% Profit: $${tradPrices[n-1].toFixed(2)}</text>
+      <text x="${w - pad.right}" y="${y(fixedPrices[n-1]) + 14}" text-anchor="end" font-size="10" font-weight="bold" fill="#5d8261">$ Profit: $${fixedPrices[n-1].toFixed(2)}</text>
+    </svg>
+  `;
+
+  eventsEl.innerHTML = scenario.events.map(e =>
+    `<div class="event-marker"><div class="event-dot"></div>${scenario.months[e.month]}: ${e.label}</div>`
+  ).join('');
+
+  // Update timeline buttons
+  document.querySelectorAll('.timeline-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.scenario === currentTimeline);
+  });
+}
+
+function renderAdvanced() {
+  const panel = document.getElementById('advancedPanel');
+  const stages = products[currentProduct].stages;
+  let html = '<h3>Adjust Profit % by Stage</h3><div class="margin-grid">';
+  stages.forEach((s, i) => {
+    const margin = getMargin(currentProduct, i);
+    html += `
+      <div class="margin-control">
+        <label>${s.icon} ${s.character} &mdash; ${s.name}</label>
+        <div class="mc-row">
+          <input type="range" min="5" max="60" value="${margin}" step="1"
+            oninput="setMargin('${currentProduct}', ${i}, this.value)">
+          <span class="val" id="marginVal_${i}">${margin}%</span>
+        </div>
+      </div>
+    `;
+  });
+  panel.innerHTML = html + '</div>';
+}
+
+// ══════════════════════════════════════════════════════════════
+// MAIN RENDER
+// ══════════════════════════════════════════════════════════════
+
+function renderSupplier(data) {
+  const fuelPct = parseInt(document.getElementById('fuelSlider').value);
+  const stages = products[currentProduct].stages;
+  const tradStages = data.tradStages;
+  const container = document.getElementById('supplierCards');
+  const summary = document.getElementById('supplierSummary');
+
+  if (fuelPct === 0) {
+    container.innerHTML = '<p style="text-align:center; color:var(--text-light); padding:2rem; font-size:0.9rem;">Adjust the fuel slider to see how cost increases pressure each business in the chain.</p>';
+    summary.innerHTML = '';
+    return;
+  }
+
+  let criticalCount = 0;
+  let dangerCount = 0;
+  let totalExtraCostAllStages = 0;
+
+  const cards = tradStages.map((ts, i) => {
+    const s = stages[i];
+    // Monthly extra input cost this stage must fund upfront
+    const perUnitCostIncrease = ts.totalCost - ts.baseTotalCost;
+    const monthlyExtraCost = perUnitCostIncrease * s.monthlyUnits;
+    totalExtraCostAllStages += monthlyExtraCost;
+
+    // Cash gap: they pay the extra cost now, but don't receive payment for N days
+    const paymentLag = s.paymentTermsDays / 30; // months
+    const cashGap = monthlyExtraCost * paymentLag;
+
+    // Base monthly profit (what they normally have to absorb shocks)
+    const baseMonthlyProfit = data.baseData[i].profit * s.monthlyUnits;
+    const cashReserve = baseMonthlyProfit * s.cashReserveMonths;
+
+    // Stress = how much of their cash reserve is consumed by the gap
+    // Plus ongoing monthly drain (extra cost they fund each month beyond what profit covers)
+    const extraProfitPerUnit = ts.profit - ts.baseProfit;
+    const monthlyExtraProfit = extraProfitPerUnit * s.monthlyUnits;
+    const monthlyNetDrain = monthlyExtraCost - monthlyExtraProfit; // cost increase minus extra profit (under % model they recoup some)
+    const monthsOfRunway = monthlyNetDrain > 0 ? cashReserve / monthlyNetDrain : 99;
+
+    // Stress level
+    let stress, badge;
+    if (monthsOfRunway > 12) { stress = 'low'; badge = 'ok'; }
+    else if (monthsOfRunway > 6) { stress = 'med'; badge = 'caution'; }
+    else if (monthsOfRunway > 3) { stress = 'high'; badge = 'danger'; dangerCount++; }
+    else { stress = 'critical'; badge = 'critical'; criticalCount++; }
+
+    const stressLabels = { low: 'Stable', med: 'Under Pressure', high: 'At Risk', critical: 'Critical' };
+    const runwayPct = Math.min(monthsOfRunway / 12 * 100, 100);
+
+    return `
+      <div class="supplier-card stress-${stress}">
+        <div class="supplier-header">
+          <div class="supplier-name"><span class="s-icon">${s.icon}</span> ${s.character} &mdash; ${s.name}</div>
+          <span class="supplier-badge ${badge}">${stressLabels[stress]}</span>
+        </div>
+        <div style="font-size:0.72rem; color:var(--text-light); margin-bottom:0.4rem;">${s.businessType} &middot; ${(s.monthlyUnits/1000).toFixed(0)}k units/mo &middot; Paid in ${s.paymentTermsDays} days</div>
+        <div class="supplier-metrics">
+          <div class="s-metric">Extra cost/mo: <span class="s-val neg">A$${formatK(monthlyExtraCost)}</span></div>
+          <div class="s-metric">Cash gap (payment lag): <span class="s-val neg">A$${formatK(cashGap)}</span></div>
+          <div class="s-metric">Cash reserve: <span class="s-val">A$${formatK(cashReserve)}</span></div>
+          <div class="s-metric">Monthly drain: <span class="s-val ${monthlyNetDrain > 0 ? 'neg' : 'pos'}">A$${formatK(Math.abs(monthlyNetDrain))}/mo</span></div>
+        </div>
+        <div class="supplier-bar-track">
+          <div class="supplier-bar-fill ${badge}" style="width:${runwayPct}%"></div>
+        </div>
+        <div class="supplier-bar-label">
+          <span>0 months</span>
+          <span>${monthsOfRunway > 12 ? '12+ months runway' : `~${monthsOfRunway.toFixed(1)} months runway`}</span>
+          <span>12 months</span>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = cards.join('');
+
+  const chainLinks = tradStages.length;
+  summary.innerHTML = `
+    <div class="ss-stat">
+      <span class="ss-big" style="color:${criticalCount > 0 ? 'var(--red-alert)' : 'var(--sage-light)'};">${criticalCount}</span>
+      <span class="ss-desc">Critical<br>(may fail)</span>
+    </div>
+    <div class="ss-stat">
+      <span class="ss-big" style="color:${dangerCount > 0 ? 'var(--terracotta-light)' : 'var(--sage-light)'};">${dangerCount}</span>
+      <span class="ss-desc">At risk<br>(&lt;6 months)</span>
+    </div>
+    <div class="ss-stat">
+      <span class="ss-big" style="color:var(--sand);">${chainLinks - criticalCount - dangerCount}</span>
+      <span class="ss-desc">Stable<br>(for now)</span>
+    </div>
+    <div class="ss-stat">
+      <span class="ss-big" style="color:var(--amber-light);">A$${formatK(totalExtraCostAllStages)}</span>
+      <span class="ss-desc">Total extra cost<br>funded across chain/mo</span>
+    </div>
+  `;
+}
+
+function formatK(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(0) + 'k';
+  return n.toFixed(0);
+}
+
+function renderCashflow() {
+  const fuelPct = parseInt(document.getElementById('fuelSlider').value);
+  const competitionPct = parseInt(document.getElementById('competitionSlider').value);
+
+  const qtys = {
+    bread: parseInt(document.getElementById('qty-bread').value) || 0,
+    butter: parseInt(document.getElementById('qty-butter').value) || 0,
+    coffee: parseInt(document.getElementById('qty-coffee').value) || 0,
+  };
+
+  // Calculate all three products
+  const allData = {};
+  ['bread', 'butter', 'coffee'].forEach(p => {
+    allData[p] = calculate(p, fuelPct, competitionPct);
+  });
+
+  const productNames = { bread: 'Bread', butter: 'Butter', coffee: 'Coffee' };
+  const productIcons = { bread: '\u{1F35E}', butter: '\u{1F9C8}', coffee: '\u2615' };
+  const productUnits = { bread: 'loaf', butter: 'block', coffee: '250g bag' };
+
+  // Per-product rows
+  let totalBaseMo = 0, totalTradMo = 0, totalFixedMo = 0;
+  let rowsHTML = `
+    <div class="cf-product-row" style="font-weight:700; font-size:0.75rem; color:var(--text-light); border-bottom:2px solid var(--sand-dark);">
+      <div>Product</div>
+      <div class="cf-prod-val">Before</div>
+      <div class="cf-prod-val">% Profit</div>
+      <div class="cf-prod-val">$ Profit</div>
+    </div>
+  `;
+
+  ['bread', 'butter', 'coffee'].forEach(p => {
+    const d = allData[p];
+    const q = qtys[p];
+    const baseMo = d.basePrice * q;
+    const tradMo = d.tradFinal * q;
+    const fixedMo = d.fixedFinal * q;
+    totalBaseMo += baseMo;
+    totalTradMo += tradMo;
+    totalFixedMo += fixedMo;
+
+    const tradDiff = tradMo - baseMo;
+    const showDiff = fuelPct !== 0 && tradDiff > 0.005;
+
+    rowsHTML += `
+      <div class="cf-product-row">
+        <div class="cf-prod-name">${productIcons[p]} ${productNames[p]} <span style="font-weight:400; color:var(--text-light); font-size:0.75rem;">&times;${q}/mo</span></div>
+        <div class="cf-prod-val">A$${baseMo.toFixed(2)}</div>
+        <div class="cf-prod-val" style="color:${showDiff ? 'var(--terracotta)' : 'var(--charcoal)'}">A$${tradMo.toFixed(2)}</div>
+        <div class="cf-prod-val" style="color:${showDiff ? 'var(--sage-dark)' : 'var(--charcoal)'}">A$${fixedMo.toFixed(2)}</div>
+      </div>
+    `;
+  });
+
+  // Totals row
+  const tradTotalDiff = totalTradMo - totalBaseMo;
+  rowsHTML += `
+    <div class="cf-product-row" style="font-weight:700; border-top:2px solid var(--sand-dark); padding-top:0.6rem;">
+      <div>Monthly Total</div>
+      <div class="cf-prod-val">A$${totalBaseMo.toFixed(2)}</div>
+      <div class="cf-prod-val" style="color:var(--terracotta)">A$${totalTradMo.toFixed(2)}</div>
+      <div class="cf-prod-val" style="color:var(--sage-dark)">A$${totalFixedMo.toFixed(2)}</div>
+    </div>
+  `;
+
+  document.getElementById('cfProductRows').innerHTML = rowsHTML;
+
+  // Side-by-side monthly cards
+  const tradIncrease = totalTradMo - totalBaseMo;
+  const fixedIncrease = totalFixedMo - totalBaseMo;
+  const monthlyGap = totalTradMo - totalFixedMo;
+
+  document.getElementById('cfCards').innerHTML = `
+    <div class="cashflow-card trad-card">
+      <h4>% Profit (Traditional)</h4>
+      <div class="cf-row"><span class="cf-label">Monthly spend</span><span class="cf-val">A$${totalTradMo.toFixed(2)}</span></div>
+      <div class="cf-row"><span class="cf-label">Was</span><span class="cf-val">A$${totalBaseMo.toFixed(2)}</span></div>
+      <div class="cf-row"><span class="cf-label">Monthly increase</span><span class="cf-val up">+A$${tradIncrease.toFixed(2)}</span></div>
+      <div class="cf-row"><span class="cf-label">Annual increase</span><span class="cf-val up">+A$${(tradIncrease * 12).toFixed(2)}</span></div>
+    </div>
+    <div class="cashflow-card fixed-card">
+      <h4>$ Profit (Alternative)</h4>
+      <div class="cf-row"><span class="cf-label">Monthly spend</span><span class="cf-val">A$${totalFixedMo.toFixed(2)}</span></div>
+      <div class="cf-row"><span class="cf-label">Was</span><span class="cf-val">A$${totalBaseMo.toFixed(2)}</span></div>
+      <div class="cf-row"><span class="cf-label">Monthly increase</span><span class="cf-val highlight">+A$${fixedIncrease.toFixed(2)}</span></div>
+      <div class="cf-row"><span class="cf-label">Annual increase</span><span class="cf-val highlight">+A$${(fixedIncrease * 12).toFixed(2)}</span></div>
+    </div>
+  `;
+
+  // Annual summary bar
+  const annualGap = monthlyGap * 12;
+  const tradPctUp = totalBaseMo > 0 ? ((tradIncrease / totalBaseMo) * 100).toFixed(1) : '0.0';
+
+  document.getElementById('cfSummary').innerHTML = fuelPct === 0
+    ? `<div class="cf-summary-stat" style="grid-column:1/-1;"><span class="cf-big" style="color:var(--sand-dark);">Adjust the fuel slider to see the monthly impact</span></div>`
+    : `
+      <div class="cf-summary-stat">
+        <span class="cf-big trad">+A$${(tradIncrease * 12).toFixed(0)}</span>
+        <span class="cf-desc">Annual cost increase<br>(% profit model)</span>
+      </div>
+      <div class="cf-summary-stat">
+        <span class="cf-big fixed">+A$${(fixedIncrease * 12).toFixed(0)}</span>
+        <span class="cf-desc">Annual cost increase<br>($ profit model)</span>
+      </div>
+      <div class="cf-summary-stat">
+        <span class="cf-big gap">A$${annualGap.toFixed(0)}</span>
+        <span class="cf-desc">Annual snowball surcharge<br>on just 3 products</span>
+      </div>
+      <div class="cf-summary-stat">
+        <span class="cf-big" style="color:var(--sand);">${tradPctUp}%</span>
+        <span class="cf-desc">Your grocery bill<br>increase</span>
+      </div>
+    `;
+}
+
+function render() {
+  const fuelPct = parseInt(document.getElementById('fuelSlider').value);
+  const competitionPct = parseInt(document.getElementById('competitionSlider').value);
+  document.getElementById('fuelValue').textContent = fuelPct;
+  document.getElementById('competitionValue').textContent = competitionPct;
+
+  const data = calculate(currentProduct, fuelPct, competitionPct);
+  const maxPrice = Math.max(data.tradFinal, data.fixedFinal, data.basePrice) * 1.05;
+
+  // Story
+  renderStory(data);
+
+  // Comparison
+  renderStages('traditionalStages', data.tradStages, 'traditional', maxPrice);
+  renderStages('fixedStages', data.fixedStages, 'fixed', maxPrice);
+
+  document.getElementById('tradFinal').textContent = `$${data.tradFinal.toFixed(2)}`;
+  document.getElementById('fixedFinal').textContent = `$${data.fixedFinal.toFixed(2)}`;
+
+  const tradIncrease = data.tradFinal - data.basePrice;
+  const fixedIncrease = data.fixedFinal - data.basePrice;
+  const gap = data.tradFinal - data.fixedFinal;
+
+  if (fuelPct !== 0) {
+    const tradPct = ((tradIncrease / data.basePrice) * 100).toFixed(1);
+    const fixedPct = ((fixedIncrease / data.basePrice) * 100).toFixed(1);
+    document.getElementById('tradChange').innerHTML = `+$${tradIncrease.toFixed(2)} (+${tradPct}%)`;
+    document.getElementById('fixedChange').innerHTML = `+$${fixedIncrease.toFixed(2)} (+${fixedPct}%)`;
+  } else {
+    document.getElementById('tradChange').textContent = '';
+    document.getElementById('fixedChange').textContent = '';
+  }
+
+  // Summary
+  document.getElementById('summaryTrad').textContent = `$${data.tradFinal.toFixed(2)}`;
+  document.getElementById('summaryFixed').textContent = `$${data.fixedFinal.toFixed(2)}`;
+  document.getElementById('summaryGap').textContent = `$${gap.toFixed(2)}`;
+
+  const insightEl = document.getElementById('summaryInsight');
+  if (fuelPct === 0) {
+    insightEl.innerHTML = 'Move the fuel slider above to see how costs snowball through the supply chain.';
+  } else {
+    const gapPct = ((gap / data.basePrice) * 100).toFixed(1);
+    const tradPctTotal = ((tradIncrease / data.basePrice) * 100).toFixed(1);
+    const stageCount = products[currentProduct].stages.length;
+    const absF = Math.abs(fuelPct);
+    const dir = fuelPct > 0 ? 'increase' : 'decrease';
+    insightEl.innerHTML = `A <strong>${absF}%</strong> fuel ${dir} becomes a <strong>${tradPctTotal}%</strong> price change at the register. ` +
+      (gap > 0.005 ? `Of that, <strong>$${gap.toFixed(2)} (${gapPct}%)</strong> is from the snowball effect across ${stageCount} stages &mdash; ` +
+      `additional price increase caused by the pricing method, not by actual costs.` : 'With this level of competition pressure, the snowball effect is minimal.');
+  }
+
+  // Waterfall
+  renderWaterfall(data);
+
+  // Cascade
+  renderCascade(data);
+
+  // Timeline
+  renderTimeline();
+
+  // Advanced
+  renderAdvanced();
+  renderCashflow();
+  renderSupplier(data);
+}
+
+// ══════════════════════════════════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════════════════════════════════
+
+function switchProduct(product) {
+  currentProduct = product;
+  document.querySelectorAll('.product-tab').forEach(t => t.classList.toggle('active', t.dataset.product === product));
+  render();
+}
+
+function switchView(view) {
+  currentView = view;
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.toggle('active', p.id === `view-${view}`));
+}
+
+function switchTimeline(scenario) {
+  currentTimeline = scenario;
+  renderTimeline();
+}
+
+function applyCrisis(crisisKey) {
+  const crisis = crisisPresets[crisisKey];
+  document.getElementById('fuelSlider').value = crisis.fuel;
+  document.querySelectorAll('.crisis-btn').forEach(b => b.classList.toggle('active', b.dataset.crisis === crisisKey));
+  render();
+}
+
+function setMargin(product, idx, value) {
+  customMargins[`${product}_${idx}`] = parseInt(value);
+  document.getElementById(`marginVal_${idx}`).textContent = `${value}%`;
+  render();
+}
+
+function toggleAdvanced() {
+  document.getElementById('advancedPanel').classList.toggle('visible');
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+
+document.getElementById('fuelSlider').addEventListener('input', () => {
+  document.querySelectorAll('.crisis-btn').forEach(b => b.classList.remove('active'));
+  render();
+});
+document.getElementById('competitionSlider').addEventListener('input', render);
+render();
+</script>
+
+</body>
+</html>
